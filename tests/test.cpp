@@ -14,39 +14,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#define CATCH_CONFIG_MAIN
+
 #ifdef _MSC_VER
+
 // blanket turn off warnings from CppCoreCheck from catch
 // so people aren't annoyed by them when running the tool.
-#pragma warning(disable : 26440 26426) // from catch
-#endif
+#include <CodeAnalysis/Warnings.h>
+#pragma warning(disable : ALL_CODE_ANALYSIS_WARNINGS) // from catch
+#endif // _MSC_VER
 
-#include <catch/catch.hpp> // for AssertionHandler, StringRef, CHECK, CHECK...
-
-#include <gsl/gsl_assert> // for fail_fast (ptr only), Ensures, Expects
-
-using namespace gsl;
-
-int f(int i)
-{
-    Expects(i > 0 && i < 10);
-    return i;
-}
-
-TEST_CASE("expects")
-{
-    CHECK(f(2) == 2);
-    CHECK_THROWS_AS(f(10), fail_fast);
-}
-
-int g(int i)
-{
-    i++;
-    Ensures(i > 0 && i < 10);
-    return i;
-}
-
-TEST_CASE("ensures")
-{
-    CHECK(g(2) == 3);
-    CHECK_THROWS_AS(g(9), fail_fast);
-}
+#include <catch/catch.hpp>

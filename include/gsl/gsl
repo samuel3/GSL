@@ -14,39 +14,16 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifdef _MSC_VER
-// blanket turn off warnings from CppCoreCheck from catch
-// so people aren't annoyed by them when running the tool.
-#pragma warning(disable : 26440 26426) // from catch
-#endif
+#ifndef GSL_GSL_H
+#define GSL_GSL_H
 
-#include <catch/catch.hpp> // for AssertionHandler, StringRef, CHECK, CHECK...
+#include <gsl/gsl_algorithm> // copy
+#include <gsl/gsl_assert>    // Ensures/Expects
+#include <gsl/gsl_byte>      // byte
+#include <gsl/gsl_util>      // finally()/narrow()/narrow_cast()...
+#include <gsl/multi_span>    // multi_span, strided_span...
+#include <gsl/pointers>      // owner, not_null
+#include <gsl/span>          // span
+#include <gsl/string_span>   // zstring, string_span, zstring_builder...
 
-#include <gsl/gsl_assert> // for fail_fast (ptr only), Ensures, Expects
-
-using namespace gsl;
-
-int f(int i)
-{
-    Expects(i > 0 && i < 10);
-    return i;
-}
-
-TEST_CASE("expects")
-{
-    CHECK(f(2) == 2);
-    CHECK_THROWS_AS(f(10), fail_fast);
-}
-
-int g(int i)
-{
-    i++;
-    Ensures(i > 0 && i < 10);
-    return i;
-}
-
-TEST_CASE("ensures")
-{
-    CHECK(g(2) == 3);
-    CHECK_THROWS_AS(g(9), fail_fast);
-}
+#endif // GSL_GSL_H
